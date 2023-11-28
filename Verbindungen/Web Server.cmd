@@ -1,0 +1,1 @@
+ssh ubuntu@35.153.189.205 -i "C:\Users\yassin.sobhy\OneDrive - voicelan.ch\Dokumente\SSH Keys\M143.pem"
