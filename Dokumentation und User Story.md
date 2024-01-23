@@ -37,13 +37,13 @@ Kunde und IT Verwaltung.
 Die Umgebung muss mit Backups ausgestattet sein, im Falle eines Datenverlustes oder Hacker Angriff. Ausserdem muss die Umgebung mit Passwörter und SSH Keys geschützt sein.
 
 ### 4. Begriffserklärungen
-OS = Operating System = Betriebssystem
-Partition = Eine unterteilung der Festplatte
-NTFS = Dateisystem für die Festplatte
-SCP = Secure Copy
-SSH = Secure Shell, mit dem kann man sich auf ein Gerät verbinden.
-RDP = Remote Desktop, ermöglicht Verbundungen zu anderen Geräten im gleichen Netzwerk.
-SQL = Eine Datenbank Art.
+OS = Operating System = Betriebssystem <br>
+Partition = Eine unterteilung der Festplatte <br>
+NTFS = Dateisystem für die Festplatte <br>
+SCP = Secure Copy <br>
+SSH = Secure Shell, mit dem kann man sich auf ein Gerät verbinden. <br>
+RDP = Remote Desktop, ermöglicht Verbundungen zu anderen Geräten im gleichen Netzwerk. <br>
+SQL = Eine Datenbank Art. <br>
 
 ## 5. Allgemeine Anforderungen
 ### 6. Netzwerke
