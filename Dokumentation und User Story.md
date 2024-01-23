@@ -47,9 +47,9 @@ SQL = Eine Datenbank Art. <br>
 
 ## 5. Allgemeine Anforderungen
 ### 6. Netzwerke
-192.168.128.0 – 192.168.128.255/24
-172.31.64.0 – 172.31.95.255/20
-172.31.0.0 – 172.31.15.255/20
+192.168.128.0 – 192.168.128.255/24 <br>
+172.31.64.0 – 172.31.95.255/20 <br>
+172.31.0.0 – 172.31.15.255/20 <br>
 
 ### 7. Computerhardware
 Es gibt keine physische Hardware in dem Sinne, nur die Hardware der Virtuellen Server.
