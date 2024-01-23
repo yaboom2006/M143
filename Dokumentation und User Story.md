@@ -1,6 +1,7 @@
 # Dokumentation Modul 143
 ## von Yassin Sobhy
 
+
 ### Inhalt
 Netzwerkschema
 1. Einführung
@@ -86,3 +87,30 @@ Der Web Server hat als Anwendung Apache2 installiert, damit auch eine Webseite z
 
 ## 19. Funktion der Infrastruktur
 Die ganze Infrastruktur funktoniert so, dass die beiden Linux Server sebstständig ein Backup erstellen. Beim SQL Server wird logischerweise die SQL Datenbank gesichert und in ein Dump File gespeichert, anders wie beim Web Server. Dort werden die ganzen Web Dateien gesichert und in eine komprimierte Datei abgespeichert. Dazu wird direkt, wenn das Backup automatisch mit einem Cronjob ausgeführt wird, ein anderes Script ausgeführt welches automatisch das ältere Backup vom Server löscht. So wird sichergestellt das immer nur das neuste Backup auf den Linux Servern liegen und nicht zu viel Speicher verbraucht wird. 10 Minuten später führt der Windows Backup Server seinerseits ein Script aus, welches per SSh auf den jeweiligen Server geht und die Backup Datei mit SCP (Secure Copy) hinüberkopiert. Danach wird die Datei in einem zugewiesenen Ordner abgelegt. Dieser Vorgang ist mit der Windows Aufgabenplanung automatisiert. Falls die Sicherung auf seiten der Linux Server länger dauern sollte, durch grössere Backups zum Beispiel, kann auch die Zeit, bis das Kopieren in Kraft tritt, individuell angepasst werden.
+
+
+# User Story M143
+
+
+### Automatisierte Backups:
+Die Web-Dateien auf dem Web Server sollen regelmäßig gesichert werden, sowie die SQL-Datenbank auf dem SQL Server ebenso. Die Backups sollen automatisiert durchgeführt werden. Die ältere Backups sollen automatisch gelöscht werden, um Speicherplatz zu sparen.
+
+### Sicherheitsgruppen und Netzwerkkonfiguration:
+Der Datenbank Server sollte ausgehend keine Internet beschränkungen haben, eingehend dafür nur die Ports 22 für SSH Zugriff und 1433 für den SQL Zugriff. Der Web Server sollen die Ports 80 und 22 offen haben für HTTP und SSH.
+Feste IP-Adressen sollen für Server für eine einfache Verwaltung zugewiesen werden.
+
+### Flexibilität und Anpassung:
+Die Backup-Zeiten sollen flexibel angepasst werden können, um unterschiedlichen Backup-Dauern gerecht zu werden.
+Die Infrastruktur soll einfach um neue Server erweitert werden können.
+
+### Überwachung und Fehlerbehebung:
+Es soll eine einfache Überwachung der Backup-Ergebnisse auf den Linux-Servern geben.
+Das System soll auf mögliche Fehler hin überwacht werden, um schnelle Reaktionen zu ermöglichen.
+
+### Webseite auf Web Server:
+HTML-, CSS- und PHP-Dateien sollen einfach auf dem Web Server platziert werden können.
+Die Webseite soll über den Webbrowser zugänglich sein.
+
+### Sicherheit und Authentifizierung:
+Die SSH-Verbindung soll sicherstellen, dass nur autorisierte Benutzer auf die Server zugreifen können.
+Der Zugriff auf die Server soll nur über die bereitgestellten SSH-Schlüssel erfolgen.
