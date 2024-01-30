@@ -26,7 +26,7 @@ Netzwerkschema
 20. [Anforderungen](#20-anforderungen)
 21. [Scripte](#21-scripte)
 22. [Ausfall](#22-ausfall)
-
+[User Story](#user-story-m143)
 # Netzwerkschema
 ![](Netzwerkschema.png)
 
@@ -89,9 +89,27 @@ Alle Server haben eine fixe IP bekommen, vor alle bei den AWS Servern war mir da
 Der Web Server hat als Anwendung Apache2 installiert, damit auch eine Webseite zustande kam, auf welche man zugreifen kann. Dazu kommt auch noch PHP. Der SQL Server hat nur MSSQL installiert.
 
 ## 19. Funktion der Infrastruktur
-Die ganze Infrastruktur funktoniert so, dass die beiden Linux Server sebstständig ein Backup erstellen. Beim SQL Server wird logischerweise die SQL Datenbank gesichert und in ein Dump File gespeichert, anders wie beim Web Server. Dort werden die ganzen Web Dateien gesichert und in eine komprimierte Datei abgespeichert. Dazu wird direkt, wenn das Backup automatisch mit einem Cronjob ausgeführt wird, ein anderes Script ausgeführt welches automatisch das ältere Backup vom Server löscht. So wird sichergestellt das immer nur das neuste Backup auf den Linux Servern liegen und nicht zu viel Speicher verbraucht wird. 10 Minuten später führt der Windows Backup Server seinerseits ein Script aus, welches per SSh auf den jeweiligen Server geht und die Backup Datei mit SCP (Secure Copy) hinüberkopiert. Danach wird die Datei in einem zugewiesenen Ordner abgelegt. Dieser Vorgang ist mit der Windows Aufgabenplanung automatisiert. Falls die Sicherung auf seiten der Linux Server länger dauern sollte, durch grössere Backups zum Beispiel, kann auch die Zeit, bis das Kopieren in Kraft tritt, individuell angepasst werden. Die Scripte sind nur für den Administrator zugänglich und können von anderen Benutzern nicht verändert werden. Wäre ja noch schöner.
+Die ganze Infrastruktur funktoniert so, dass die beiden Linux Server sebstständig ein Backup erstellen. Beim SQL Server wird logischerweise die SQL Datenbank gesichert und in ein Dump File gespeichert, anders wie beim Web Server. Dort werden die ganzen Web Dateien gesichert und in eine komprimierte Datei abgespeichert. Dazu wird direkt, wenn das Backup automatisch mit einem Cronjob ausgeführt wird, ein anderes Script ausgeführt welches automatisch das ältere Backup vom Server löscht. So wird sichergestellt das immer nur das neuste Backup auf den Linux Servern liegen und nicht zu viel Speicher verbraucht wird. 10 Minuten später führt der Windows Backup Server seinerseits ein Script aus, welches per SSh auf den jeweiligen Server geht und die Backup Datei mit SCP (Secure Copy) hinüberkopiert. Danach wird die Datei in einem zugewiesenen Ordner abgelegt. Dieser Vorgang ist mit der Windows Aufgabenplanung automatisiert. Falls die Sicherung auf seiten der Linux Server länger dauern sollte, durch grössere Backups zum Beispiel, kann auch die Zeit, bis das Kopieren in Kraft tritt, individuell angepasst werden. Die Scripte sind nur für den Administrator zugänglich und können von anderen Benutzern nicht verändert werden. Wäre ja noch schöner.<br>
 
+Hier sind die beiden Beiden Backup Bilder. Es hatte vorher schon ein Backup drauf, das wurde automatisch nach der erstellung des neuen Backups gelöscht.<br>
 
+![](SQLBackup.png)
+
+![](WEBBackup.png)
+
+Die Cronjobs sehen so aus:<br>
+
+![](SQLCronjob.png)
+
+![](WEBCronjob.png)
+
+Nach 10 min werden die Backups automatisch auf den Backup Server rübergezogen. Hier sieht man die automatisierung in der Aufgabenplanung und die Backups des heutigen Tages mit Datum, welche erfolgreich auf den Backupserver kopiert wurden:
+
+![](Aufgabenplanung.png)
+
+![](SQLFile.png)
+
+![](WEBFile.png)
 
 ## 20. Anforderungen
 Die AWS Umgebung die ich genutzt habe war eine Test Umgebung und keine richtige daher sind die Ressourcen der Server im Moment eingeschränkt und nicht komplett verfügbar. Um den Wünschen des Kunden gerecht zu werden könnte man AWS auch kaufen und im Business benützen was aber erheblich teuerer wird als die kleine Testumgebung hier. Mann kommt auf knapp 1000 USD im Jahr was auch nicht die Welt ist aber trotzdem. Meine Server haben sehr wenige Ressourcen. Der SQL hat nur 2GB RAM damit ich das SQL installieren konnte. Der andere Linux Server hat nur ein GB RAM, beide mit einer vCPU. Der Backup Server auf meinem lokalen System hat mehr. 2GB RAM 2 vCPUs. Das ist unter normalen Umständen zu wenig. Die SQL Datenbank sollte mindestens 2GB RAM haben, zusammen mit mindestens 1CPU. Beim Speicher kommt es darauf an wie viel Daten man in der Datenbank hat. Für den Anfang würde ich sagen 100GB. Der Web Server braucht auch nicht so viel, 1GB RAM reicht bei 1-4 Webseiten danach wird es kritisch und 2 oder mehr wären the way to go. 1 CPU Mindestens. Speicher braucht es nicht viel da die Webseiten nicht vile Platz verbrauchen, darum denke ich 50-60 GB als Start. Der Backupserver muss vor allem auf seinen Speicher achten. Wenn die Datenbank riesig ist braucht auch der Backup Server ordentlich Platz. Hier würde ich auch sagen 1GB RAM, 1 CPU und 100GB.
